@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-10 q-pa-md rounded-borders">
+  <div class="shadow-10 full-height q-pa-md rounded-borders">
     <div class="flex justify-between items-center">
       <h6 class="q-my-none q-pa-sm">{{label}}</h6>
       <q-icon :name="icon" size="md"/>

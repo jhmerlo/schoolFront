@@ -2,14 +2,6 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-        />
-
         <q-toolbar-title class="text-secondary text-weight-bold">
           ESD
         </q-toolbar-title>

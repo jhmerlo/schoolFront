@@ -24,6 +24,11 @@ const routes = [
         path: 'atividade/:codigo',
         component: () => import('pages/Atividade.vue'),
         props: true
+      },
+      {
+        path: 'prof',
+        component: () => import('pages/ProfPage.vue'),
+        name: 'ProfPage'
       }
     ]
   },

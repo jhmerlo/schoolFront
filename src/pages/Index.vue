@@ -60,8 +60,20 @@
       </div>
       <div class="col-md-4 col-sm-6 col-xs-12 q-pa-sm">
         <Card label="Vídeo recomendado" icon="movie">
-          <iframe width="100%" height="224px" class="q-mt-md" src="https://www.youtube.com/embed/NH6msPAScUE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <q-item-label caption>Análise de um filtro passa baixa RC</q-item-label>
+          <div class="row justify-center">
+            <div class="col-12">
+              <q-item-label class="q-pt-md" :caption="this.$q.dark.isActive ? false : true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget hendrerit sapien. Pellentesque enim tellus, blandit eget sapien sodales, bibendum maximus nunc. Maecenas ac rhoncus mi.</q-item-label>
+              <video-player
+              style="width: 100%"
+              class="block q-mt-md"
+              :options="playerOptions"
+              @play.once="alertPlay"
+              @ended="onPlayerEnded"
+              :playsinline="true"
+              />
+            </div>
+          </div>
+          <q-checkbox class="q-mt-md" v-model="watched" disable label="Completo" color="teal" />
         </Card>
       </div>
     </div>
@@ -69,16 +81,41 @@
 </template>
 
 <script>
+import 'video.js/dist/video-js.css'
 import Card from '../components/Card'
+import { videoPlayer } from 'vue-video-player'
+import { Notify } from 'quasar'
+
 export default {
   name: 'PageIndex',
   components: {
-    Card
+    Card,
+    videoPlayer
   },
   data () {
     return {
       payments: [],
-      atividades: []
+      atividades: [],
+      playerOptions: {
+        sources: [{
+          type: 'video/mp4',
+          src: 'assets/video.mp4'
+        }],
+        fluid: true
+      },
+      watched: false,
+      seamless: false
+    }
+  },
+  methods: {
+    onPlayerEnded () {
+      this.watched = true
+    },
+    alertPlay () {
+      Notify.create({
+        message: 'Você está assistindo a: Terra Girando',
+        type: 'positive'
+      })
     }
   },
   computed: {
@@ -88,6 +125,10 @@ export default {
     }
   },
   mounted () {
+    const user = this.$store.getters['MainStore/getUser']
+    if (user.type !== 'student') {
+      this.$router.back()
+    }
     this.payments = this.$store.getters['MainStore/getPayments']
     this.atividades = this.$store.getters['MainStore/getAtividades']
   }

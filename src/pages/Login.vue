@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
+
 export default {
   name: 'LoginPage',
   data () {
@@ -41,19 +43,49 @@ export default {
     async onLogin () {
       //  apenas simulando um login que na verdade de login
       //  não tem nada
-      const user = {
-        nome: this.email
+      if (this.email === 'jhmerlo@outlook.com' && this.pass === '12345') {
+        const user = {
+          nome: 'José Henrique',
+          type: 'student'
+        }
+        await this.$store.dispatch('MainStore/loginUser', user)
+        this.showLoading('Dashboard', false)
+      } else if (this.email === 'prof@prof.com' && this.pass === '12345') {
+        const user = {
+          nome: 'Professor',
+          type: 'prof'
+        }
+        await this.$store.dispatch('MainStore/loginUser', user)
+        this.showLoading('ProfPage', false)
+      } else {
+        this.showLoading('', true)
       }
-      await this.$store.dispatch('MainStore/loginUser', user)
-      this.$q.loading.show({
-        message: 'Aguarde, estamos processando as suas credenciais.',
-        spinnerColor: 'secondary'
-      })
-      this.timer = setTimeout(() => {
-        this.$q.loading.hide()
-        this.$router.push('/')
-        this.timer = 0
-      }, 3000)
+    },
+    showLoading (path, error) {
+      if (!error) {
+        this.$q.loading.show({
+          message: 'Aguarde, estamos processando as suas credenciais.',
+          spinnerColor: 'secondary'
+        })
+        this.timer = setTimeout(() => {
+          this.$q.loading.hide()
+          this.$router.push({ name: path })
+          this.timer = 0
+        }, 3000)
+      } else {
+        this.$q.loading.show({
+          message: 'Aguarde, estamos processando as suas credenciais.',
+          spinnerColor: 'secondary'
+        })
+        this.timer = setTimeout(() => {
+          this.$q.loading.hide()
+          Notify.create({
+            message: 'Login ou senha incorretos',
+            type: 'negative'
+          })
+          this.timer = 0
+        }, 3000)
+      }
     }
   }
 }
