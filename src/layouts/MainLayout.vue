@@ -125,6 +125,7 @@ export default {
       dialog: false,
       hidden: true,
       name: '',
+      type: '',
       options: [
         {
           label: 'Bug/Erro',
@@ -148,7 +149,8 @@ export default {
   methods: {
     async handleEdit () {
       const user = {
-        nome: this.name
+        nome: this.name,
+        type: this.type
       }
       if (this.name.trim() !== '') {
         await this.$store.dispatch('MainStore/loginUser', user)
@@ -209,10 +211,12 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.getters['MainStore/getUser'] == null) {
+    const user = this.$store.getters['MainStore/getUser']
+    if (user == null) {
       this.$router.push({ name: 'LoginPage' })
     } else {
       this.name = this.username
+      this.type = user.type
     }
   }
 }

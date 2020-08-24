@@ -5,7 +5,7 @@
       <q-item-label caption>Painel destinado aos professores para atribuição de atividades </q-item-label>
     </div>
     <div class="row">
-      <div class="col-4 q-pa-sm">
+      <div class="col-xs-12 col-sm-6 col-md-4 q-pa-sm">
         <Card label="Adicionar tarefas" icon="assignment">
           <form ref="formAddAtt" @submit.prevent="handleSubmit">
             <q-input label="Disciplina" v-model="formData.disciplina" />

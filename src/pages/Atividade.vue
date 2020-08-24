@@ -50,10 +50,15 @@ export default {
     }
   },
   mounted () {
-    const atividades = this.$store.getters['MainStore/getAtividades']
-    this.atividade = atividades.find((att, index) =>
-      att.codigo === this.codigo
-    )
+    const user = this.$store.getters['MainStore/getUser']
+    if (user.type !== 'student') {
+      this.$router.back()
+    } else {
+      const atividades = this.$store.getters['MainStore/getAtividades']
+      this.atividade = atividades.find((att, index) =>
+        att.codigo === this.codigo
+      )
+    }
   }
 }
 </script>
